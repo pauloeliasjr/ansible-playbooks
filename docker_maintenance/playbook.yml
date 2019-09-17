@@ -1,0 +1,19 @@
+---
+- hosts: gitlab-runners
+  tasks:
+  - name: Cleanup Docker - Gitlab Runners
+    shell: docker system prune --volumes --force
+
+  - name: Check docker object usage
+    shell: docker system df
+    register: docker_usage
+
+  - debug: msg="{{ docker_usage.stdout }}"
+
+  - name: Check filesystem usage
+    shell: df -h
+    register: filesystem_usage
+
+  - debug: msg={{ filesystem_usage.stdout }}
+
+
